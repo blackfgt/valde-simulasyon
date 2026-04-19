@@ -1,0 +1,20 @@
+name: Valde-Guvenlik-Check
+
+on: [push]
+
+jobs:
+  taramalar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # 1. KOD TARAMASI (SAST)
+      - name: Bandit ile Kod Analizi
+        run: |
+          pip install bandit
+          bandit -r . -f txt
+
+      # 2. DOCKER TARAMASI (SCA)
+      # Şimdilik simüle ediyoruz, yarın derinleşeceğiz
+      - name: Trivy Imaj Kontrolu
+        run: echo "Imaj guvenlik taramasi baslatiliyor..."
