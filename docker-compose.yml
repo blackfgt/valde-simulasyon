@@ -1,0 +1,9 @@
+services:
+  db:
+    image: postgres:15  # Docker bunu internetten senin için otomatik indirir
+    environment:
+      POSTGRES_PASSWORD: sifre123
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres_verilerim:/var/lib/postgresql/data

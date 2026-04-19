@@ -6,15 +6,25 @@ jobs:
   taramalar:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Kodu GitHub'dan Cek
+        uses: actions/checkout@v4
 
-      # 1. KOD TARAMASI (SAST)
-      - name: Bandit ile Kod Analizi
+      # 1. ADIM: KOD TARAMASI (SAST)
+      - name: Bandit ile Python Kod Analizi
         run: |
           pip install bandit
-          bandit -r . -f txt
+          # -r: klasörü tara, -ll: sadece orta ve yuksek riskleri goster
+          bandit -r . -ll 
 
-      # 2. DOCKER TARAMASI (SCA)
-      # Şimdilik simüle ediyoruz, yarın derinleşeceğiz
-      - name: Trivy Imaj Kontrolu
-        run: echo "Imaj guvenlik taramasi baslatiliyor..."
+      # 2. ADIM: DOCKER IMAJINI OLUSTUR
+      - name: Docker Imajini Olustur
+        run: docker build -t valde-simulasyon:latest .
+
+      # 3. ADIM: DOCKER GUVENLIK TARAMASI (SCA)
+      - name: Trivy ile Imaj Analizi (Zafiyet Taramasi)
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'valde-simulasyon:latest'
+          format: 'table'
+          exit-code: '1' # Eger kritik bir acik bulursa islemi durdur (Kirmizi yak)
+          severity: 'CRITICAL,HIGH'

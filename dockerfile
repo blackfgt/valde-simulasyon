@@ -1,6 +1,6 @@
-FROM python:3.8-slim
+FROM python:3.12-slim
 WORKDIR /app
-COPY . /app
-RUN pip install flask
-EXPOSE 5000
+COPY . .
+RUN pip install -r requirements.txt
+# BURADA KULLANICI TANIMLAMADIK -> VARSAYILAN ROOT! (TEHLİKE)
 CMD ["python", "app.py"]
