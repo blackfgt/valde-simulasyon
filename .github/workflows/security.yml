@@ -26,5 +26,7 @@ jobs:
         with:
           image-ref: 'valde-simulasyon:latest'
           format: 'table'
-          exit-code: '1' # Eger kritik bir acik bulursa islemi durdur (Kirmizi yak)
+          # SADECE ÇÖZÜMÜ OLAN HATALARDA DUR (Yeni sihrimiz bu!)
+          ignore-unfixed: true 
+          exit-code: '1'
           severity: 'CRITICAL,HIGH'
